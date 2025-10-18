@@ -1,98 +1,103 @@
-# train_career_model.py
+# train_career_model_improved.py
 import pandas as pd
 import numpy as np
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.compose import ColumnTransformer
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import Pipeline
+from sklearn.metrics import classification_report, top_k_accuracy_score
 import joblib
+import sys
 
-# ------------------------
-# Load Dataset
-# ------------------------
-data = pd.read_csv("dataset1.csv")  # Replace with your dataset path
+# -----------------------------
+# 1. Load Dataset
+# -----------------------------
+file_path = "dataset1.csv"
 
-# ------------------------
-# Feature Engineering
-# ------------------------
-# Academic columns
-academic_cols = [
-    'Operating System Marks','Algorithms Marks','Software Engineering Marks',
-    'Computer Networks Marks','Electronics Marks','Computer Architecture Marks','Mathematics Marks'
-]
+try:
+    df = pd.read_csv(file_path)
+    print(f"✅ Loaded dataset successfully: {file_path}")
+    print(f"📊 Shape: {df.shape}")
+except FileNotFoundError:
+    print(f"❌ File not found: {file_path}")
+    sys.exit(1)
 
-# Skill / practical exposure columns
-skill_cols = [
-    'Coding Skill Rating',
-    'Communication Skill Rating',
-    'Public Speaking Skill',
-    'Logical Reasoning Score',
-    'Number of Hackathons Attended',
-    'Number of Internships Attended',
-]
+# -----------------------------
+# 2. Define Target and Features
+# -----------------------------
+target_column = "Predicted Career Options"
+X = df.drop(columns=[target_column])
+y = df[target_column]
 
-# Convert academic columns to numeric
-for col in academic_cols:
-    data[col] = pd.to_numeric(data[col], errors='coerce')
-data[academic_cols] = data[academic_cols].fillna(0)
+# -----------------------------
+# 3. Feature Engineering
+# -----------------------------
+# Combine related numeric features
+X['Technical Exposure'] = X['Coding Skill Rating'] + X['Number of Hackathons Attended'] + X['Number of Internships Attended']
+X['Soft Skills'] = X['Communication Skill Rating'] + X['Public Speaking Skill']
 
-# Convert skill columns to numeric
-for col in skill_cols:
-    data[col] = pd.to_numeric(data[col], errors='coerce')
-data[skill_cols] = data[skill_cols].fillna(0)
+# Drop original separate features if needed (optional)
+# numeric_features = ['Operating System Marks', 'Algorithms Marks', 'Software Engineering Marks', 'Computer Networks Marks',
+#                     'Electronics Marks', 'Computer Architecture Marks', 'Mathematics Marks', 
+#                     'Technical Exposure', 'Soft Skills', 'Expected Hours of Work Per Day']
+numeric_features = ['Operating System Marks', 'Algorithms Marks', 'Software Engineering Marks', 
+                    'Computer Networks Marks', 'Electronics Marks', 'Computer Architecture Marks', 
+                    'Mathematics Marks', 'Technical Exposure', 'Soft Skills', 'Expected Hours of Work Per Day']
 
-# Compute derived features
-data['Average Marks'] = data[academic_cols].mean(axis=1)
-data['Practical Exposure Score'] = data[skill_cols].mean(axis=1)
+# Categorical features
+categorical_features = ['Memory Capacity', 'Reading and Writing Skill', 'Certifications', 'Worked As a Team', 
+                        'Personality', 'Willingness to Work for Long Period', 'Preference: Job vs. Higher Studies', 
+                        'Type of Company Preferred', 'Interested Career Area', 'Self-Learning Ability', 'Interest Type']
 
-# ------------------------
-# Define features and target
-# ------------------------
-numeric_features = ['Average Marks', 'Practical Exposure Score']
+print(f"\n🔢 Numeric features: {numeric_features}")
+print(f"🔤 Categorical features: {categorical_features}")
 
-categorical_features = [
-    'Interest Type',
-    'Interested Career Area',
-    'Personality',
-    'Memory Capacity',
-    'Reading and Writing Skill',
-    'Worked As a Team',
-    'Willingness to Work for Long Period',
-    'Preference: Job vs. Higher Studies',
-    'Type of Company Preferred',
-    'Self-Learning Ability'
-]
+# -----------------------------
+# 4. Split Data
+# -----------------------------
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 
-X = data[numeric_features + categorical_features]
-y = data['Predicted Career Options']
-
-# ------------------------
-# Preprocessing Pipeline
-# ------------------------
+# -----------------------------
+# 5. Preprocessing
+# -----------------------------
 preprocessor = ColumnTransformer([
     ('num', StandardScaler(), numeric_features),
     ('cat', OneHotEncoder(handle_unknown='ignore'), categorical_features)
 ])
 
-# ------------------------
-# Random Forest Pipeline
-# ------------------------
+# -----------------------------
+# 6. Model
+# -----------------------------
+model = RandomForestClassifier(n_estimators=200, max_depth=20, random_state=42, class_weight='balanced')
+
 pipeline = Pipeline([
     ('preprocessor', preprocessor),
-    ('classifier', RandomForestClassifier(
-        n_estimators=200,
-        max_depth=10,
-        random_state=42
-    ))
+    ('model', model)
 ])
 
-# ------------------------
-# Train the Model
-# ------------------------
-pipeline.fit(X, y)
+# -----------------------------
+# 7. Train Model
+# -----------------------------
+print("\n🚀 Training model...")
+pipeline.fit(X_train, y_train)
+print("✅ Training completed!")
 
-# ------------------------
-# Save Trained Model
-# ------------------------
-joblib.dump(pipeline, "career_model.joblib")
-print("Training complete! Model saved as career_model.joblib")
+# -----------------------------
+# 8. Evaluate Model
+# -----------------------------
+y_pred = pipeline.predict(X_test)
+print("\n📝 Classification Report:")
+print(classification_report(y_test, y_pred))
+
+# Top-3 accuracy
+y_proba = pipeline.predict_proba(X_test)
+top3_acc = top_k_accuracy_score(y_test, y_proba, k=3, labels=pipeline.classes_)
+print(f"🎯 Top-3 Accuracy: {top3_acc:.2f}")
+
+# -----------------------------
+# 9. Save Model
+# -----------------------------
+model_filename = "career_model_improved.joblib"
+joblib.dump(pipeline, model_filename)
+print(f"💾 Model saved successfully as '{model_filename}'")

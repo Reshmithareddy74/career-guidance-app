@@ -1,6 +1,6 @@
-streamlit==1.49.1
+streamlit
 pandas
 numpy
-matplotlib
-scikit-learn==1.3.2
 joblib
+matplotlib
+scikit-learn
