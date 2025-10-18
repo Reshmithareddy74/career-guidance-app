@@ -5,6 +5,7 @@ import joblib
 import matplotlib.pyplot as plt
 import os
 
+
 # -----------------------------
 # Page config
 # -----------------------------
@@ -286,8 +287,8 @@ with tabs[2]:
 # -----------------------------
             with col2:
                 st.header("Career Prediction Output")
-    if st.button("Predict Career"):
-        prediction = model.predict(input_data)[0]
+                if st.button("Predict Career"):
+                    prediction = model.predict(input_data)[0]
         probabilities = model.predict_proba(input_data)[0]
 
         top2_idx = np.argsort(probabilities)[-2:][::-1]
