@@ -1,14 +1,13 @@
 Problem Statement
 
 Students often struggle to choose suitable career paths after their studies because existing platforms provide generic recommendations. These platforms fail to consider individual academic performance, technical skills, and personal attributes, leading to poor alignment between students’ abilities and their chosen careers.
-______________________________________________________________________________________________________________________________________
-
+_____________________________________________________________________________________________________________________________________
 Introduction
 
 The AI-Based Career Guidance System is an intelligent web application designed to assist students in identifying the most appropriate career options. By analyzing academic records, technical skills, certifications, soft skills, and personality traits, the system provides personalized career recommendations using advanced AI techniques.
-______________________________________________________________________________________________________________________________________
+_____________________________________________________________________________________________________________________________________
 Purpose: To guide students in making informed career decisions that align with their strengths, interests, and skills, thereby improving their professional satisfaction and success.
-______________________________________________________________________________________________________________________________________
+_____________________________________________________________________________________________________________________________________
 Dataset Used
 
 The dataset for the AI-Based Career Guidance System consists of student academic records and profiles, capturing both quantitative and qualitative information to enable accurate career predictions.
@@ -30,9 +29,34 @@ Communication skills, teamwork, problem-solving ability, leadership, and other p
 Additional Features:
 
 Interests, extracurricular activities, and any other relevant personal or professional experiences.
-______________________________________________________________________________________________________________________________________
+_____________________________________________________________________________________________________________________________________
 Algorithm Used: The system employs Machine Learning, specifically the Random Forest Classifier, to analyze student data and predict suitable career paths. NLP techniques are also integrated to process qualitative information such as interests and skills.
-______________________________________________________________________________________________________________________________________
+_____________________________________________________________________________________________________________________________________
+📂 Career Guidance App – Folder Structure
+career-guidance-app/
+│
+├── .devcontainer/                  # Development container configuration
+│   └── devcontainer.json           # VS Code dev container settings
+│
+├── app.py                          # Main web application
+├── train_career_model.py           # Script to train the ML career prediction model
+│
+├── dataset1.csv                    # Raw dataset with student profiles
+├── users.csv                       # User data for predictions
+│
+├── models/                         # Directory for saved model files
+│   ├── career_model.joblib         # Initial trained model
+│   ├── career_model_improved.joblib# Improved model
+│   ├── career_pipeline.joblib      # Preprocessing pipeline
+│   ├── label_encoder.pkl           # Label encoder for career labels
+│   ├── logistic_model.pkl          # Optional logistic regression model
+│   ├── scaler.pkl                  # Scaler for numerical features
+│   └── features.pkl                # Feature set used in training
+│
+├── requirements.txt                # Python dependencies
+├── README.md                       # Project overview, setup, and instructions
+└── .gitignore                      # Files/folders to ignore in git
+
 Objectives:
 
 Provide personalized career recommendations based on academic and personal profiles.
@@ -42,7 +66,7 @@ Reduce mismatch between student abilities and career choices.
 Incorporate both quantitative (marks, grades) and qualitative (skills, personality) factors.
 
 Enable continuous learning and improvement through feedback.
-______________________________________________________________________________________________________________________________________
+_____________________________________________________________________________________________________________________________________
 Advantages/Uses:
 
 Helps students make data-driven career decisions.
@@ -52,8 +76,37 @@ Supports educators and counselors in guiding students.
 Identifies skill gaps and suggests areas for improvement.
 
 Improves overall student satisfaction and career success.
-______________________________________________________________________________________________________________________________________
-Conclusion
+_____________________________________________________________________________________________________________________________________
+Model Performance 
 
-The AI-Based Career Guidance System addresses the limitations of traditional career counseling methods by providing accurate, personalized, and actionable career recommendations. Using Machine Learning , it ensures that students choose careers aligned with their abilities and interests, ultimately fostering professional growth and satisfaction.
+1. Overall Accuracy:
+
+Accuracy: 17% — This is the standard accuracy for exact single-label predictions.
+
+Top-3 Accuracy: 40% — The correct career appears in the top 3 predicted careers for a student 40% of the time, which is more meaningful for career guidance since multiple options can be suitable.
+______________________________________________________________________________________________________________________________
+Practical Insights
+
+The system can suggest multiple suitable career paths for a student rather than a single rigid choice.
+
+Helps students identify strengths, weaknesses, and skill gaps based on academic and personal profiles.
+
+Enables data-driven career guidance, reducing mismatch between student abilities and career choices.
+_______________________________________________________________________________________________________________________________
+Insights for Improvement:
+
+Increase dataset size for better representation of each career category.
+
+Feature engineering: include more detailed skill, interest, and project-based features.
+
+Consider multi-label classification since students may be suitable for multiple careers.
+
+Explore ensemble methods or deep learning models for higher predictive performance.
+_______________________________________________________________________________________________
+Conclusion of Results
+
+The AI-Based Career Guidance System successfully demonstrates that machine learning, combined with academic and personal data, can provide actionable and personalized career guidance. Even though exact predictions are challenging due to overlapping career skill sets, the Top-3 accuracy shows meaningful real-world applicability for helping students choose suitable career paths.
+
+
+
 
