@@ -33,6 +33,9 @@ ________________________________________________________________________________
 Algorithm Used: The system employs Machine Learning, specifically the Random Forest Classifier, to analyze student data and predict suitable career paths. NLP techniques are also integrated to process qualitative information such as interests and skills.
 _____________________________________________________________________________________________________________________________________
 📂 Career Guidance App – Folder Structure
+
+
+
 career-guidance-app/
 │
 ├── .devcontainer/                  # Development container configuration
