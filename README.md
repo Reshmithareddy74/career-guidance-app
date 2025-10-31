@@ -82,11 +82,17 @@ Improves overall student satisfaction and career success.
 _____________________________________________________________________________________________________________________________________
 Model Performance 
 
-1. Overall Accuracy:
+Overall Accuracy
 
-Accuracy: 17% — This is the standard accuracy for exact single-label predictions.
+Accuracy: 83.4% — This indicates the model correctly predicts the exact career label for most students.
 
-Top-3 Accuracy: 40% — The correct career appears in the top 3 predicted careers for a student 40% of the time, which is more meaningful for career guidance since multiple options can be suitable.
+Macro Avg Precision: 83.68%
+
+Macro Avg Recall: 83.35%
+
+Macro Avg F1-score: 83.47%
+
+These metrics show that the model performs consistently well across all classes, maintaining a good balance between precision and recall.
 ______________________________________________________________________________________________________________________________
 Practical Insights
 
