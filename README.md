@@ -35,31 +35,39 @@ ________________________________________________________________________________
 📂 Career Guidance App – Folder Structure
 
 
-
 career-guidance-app/
 │
-├── .devcontainer/                  # Development container configuration
-│   └── devcontainer.json           # VS Code dev container settings
+├── .devcontainer/                      # Development container configuration
+│   └── devcontainer.json               # VS Code dev container settings
 │
-├── app.py                          # Main web application
-├── train_career_model.py           # Script to train the ML career prediction model
+├── app.py                              # Main web application (Streamlit or Flask)
+├── train_career_model.py               # Script to train the ML career prediction model
+├── evaluate_career_model.py            # Script to evaluate the model and generate performance reports
 │
-├── dataset1.csv                    # Raw dataset with student profiles
-├── users.csv                       # User data for predictions
+├── dataset1.csv                        # Raw dataset with student profiles
+├── users.csv                           # User data for predictions
 │
-├── models/                         # Directory for saved model files
-│   ├── career_model.joblib         # Initial trained model
-│   ├── career_model_improved.joblib# Improved model
-│   ├── career_pipeline.joblib      # Preprocessing pipeline
-│   ├── label_encoder.pkl           # Label encoder for career labels
-│   ├── logistic_model.pkl          # Optional logistic regression model
-│   ├── scaler.pkl                  # Scaler for numerical features
-│   └── features.pkl                # Feature set used in training
+├── models/                             # Directory for saved model files
+│   ├── career_model.joblib             # Initial trained model
+│   ├── career_model_improved.joblib    # Improved Random Forest model
+│   ├── career_pipeline.joblib          # Preprocessing pipeline (encoders, scalers, etc.)
+│   ├── label_encoder.pkl               # Label encoder for career labels
+│   ├── logistic_model.pkl              # Optional logistic regression model
+│   ├── scaler.pkl                      # Scaler for numerical features
+│   └── features.pkl                    # Saved feature list used during training
 │
-├── requirements.txt                # Python dependencies
-├── README.md                       # Project overview, setup, and instructions
-└── .gitignore                      # Files/folders to ignore in git
+├── results/                            # Model evaluation results and visualizations
+│   ├── classification_report_enhanced.csv   # Detailed class-wise metrics
+│   ├── confusion_matrix_enhanced.png        # Confusion matrix heatmap
+│   ├── overall_performance_metrics.png      # Summary of overall metrics (accuracy, Top-3 accuracy)
+│   ├── per_class_f1_scores.png              # F1-score comparison by class
+│   └── precision_recall_comparison.png      # Precision vs recall comparison graph
+│
+├── requirements.txt                    # Python dependencies
+├── README.md                           # Project overview, setup, and usage instructions
+└── .gitignore                          # Files/folders to ignore in Git
 
+____________________________________________________________________________________________________________________________________
 Objectives:
 
 Provide personalized career recommendations based on academic and personal profiles.
@@ -94,6 +102,23 @@ Macro Avg F1-score: 83.47%
 
 These metrics show that the model performs consistently well across all classes, maintaining a good balance between precision and recall.
 ______________________________________________________________________________________________________________________________
+
+📊 Model Evaluation & Visualization 
+
+The project has been enhanced with new evaluation scripts and visual reports for better model analysis and interpretability.
+
+
+evaluate_career_model.py – Evaluates the trained model using test data and generates performance metrics.
+
+classification_report_enhanced.csv – Detailed precision, recall, and F1-scores for each predicted career.
+
+confusion_matrix_enhanced.png – Visual confusion matrix showing prediction vs. actual outcomes.
+
+per_class_f1_scores.png – Bar chart comparing F1-scores across different careers.
+
+precision_recall_comparison.png – Visual comparison of precision and recall per class.
+
+overall_performance_metrics.png – Summary of model performance, including standard and Top-3 accuracies.
 Practical Insights
 
 The system can suggest multiple suitable career paths for a student rather than a single rigid choice.
